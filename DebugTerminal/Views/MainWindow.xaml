@@ -1,0 +1,74 @@
+﻿<Window x:Class="DebugTerminal.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModels="clr-namespace:DebugTerminal.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=ViewModels:MainViewModel}"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource Windows.Styles.MainWindow}"
+        Title="{Binding WindowTitle}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Command section of terminal window.-->
+        <Border Grid.Column="0" Padding="10">
+            <StackPanel>
+                <WrapPanel Margin="0 0 0 10">
+                    <Label Content="Port:" Margin="0 0 25 0"/>
+
+                    <ComboBox
+                        MinWidth="150"
+                        VerticalContentAlignment="Center"
+                        ItemsSource="{Binding AvailablePorts}"
+                        SelectedItem="{Binding SelectedPortName}"/>
+                </WrapPanel>
+
+                <Button
+                    Content="Open port"
+                    Margin="0 0 0 10"
+                    Padding="20 5"
+                    Command="{Binding OpenPortCommand}"/>
+
+                <Button
+                    Content="Close port"
+                    Margin="0 0 0 10"
+                    Padding="20 5"
+                    Command="{Binding ClosePortCommand}"/>
+
+                <Button
+                    Content="Update port list"
+                    Margin="0 0 0 10"
+                    Padding="20 5"
+                    Command="{Binding UpdatePortNamesCommand}"/>
+
+                <Button
+                    Content="Clear terminal"
+                    Margin="0 0 0 10"
+                    Padding="20 5"
+                    Command="{Binding ClearTerminalCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <Border
+            Grid.Column="1"
+            Padding="10">
+
+            <TextBox
+                Text="{Binding TerminalLogs, Mode=OneWay}"
+                IsReadOnly="True"
+                IsReadOnlyCaretVisible="False"
+                FontSize="14"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.ScrollChanged="TextBox_ScrollChanged"/>
+        </Border>
+
+
+    </Grid>
+</Window>
